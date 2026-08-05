@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import { Bus, Mail, Lock } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -14,13 +15,14 @@ const Login = () => {
     try {
       const res = await axios.post('http://localhost:5000/api/auth/login', { email, password });
       localStorage.setItem('userInfo', JSON.stringify(res.data));
+      toast.success(`Logged in as ${res.data.name}`);
       if (res.data.role === 'ADMIN') {
         navigate('/admin-dashboard');
       } else {
         navigate('/dashboard');
       }
     } catch (error) {
-      alert(error.response?.data?.message || 'Login failed');
+      toast.error(error.response?.data?.message || 'Login failed');
     }
   };
 

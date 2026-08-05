@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import { Bus, Mail, Lock, User } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -15,13 +16,14 @@ const Register = () => {
     try {
       const res = await axios.post('http://localhost:5000/api/auth/register', { name, email, password });
       localStorage.setItem('userInfo', JSON.stringify(res.data));
+      toast.success('Registered successfully!');
       if (res.data.role === 'ADMIN') {
         navigate('/admin-dashboard');
       } else {
         navigate('/dashboard');
       }
     } catch (error) {
-      alert(error.response?.data?.message || 'Registration failed');
+      toast.error(error.response?.data?.message || 'Registration failed');
     }
   };
 
