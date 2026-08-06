@@ -19,8 +19,33 @@ const busSchema = new mongoose.Schema({
     type: String,
     enum: ['IDLE', 'RUNNING', 'MAINTENANCE'],
     default: 'IDLE',
+  },
+  currentLocation: {
+    lat: { type: Number, default: 0 },
+    lng: { type: Number, default: 0 }
+  },
+  speed: {
+    type: Number,
+    default: 30 // km/h
+  },
+  delayMinutes: {
+    type: Number,
+    default: 0
+  },
+  capacity: {
+    type: Number,
+    default: 40
+  },
+  currentPassengers: {
+    type: Number,
+    default: 12
+  },
+  lastUpdated: {
+    type: Date,
+    default: Date.now
   }
 }, { timestamps: true });
 
 const Bus = mongoose.model('Bus', busSchema);
 module.exports = Bus;
+
